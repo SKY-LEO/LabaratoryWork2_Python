@@ -1,10 +1,19 @@
+import datetime
+
+
 def task1():
+    # Написать функцию, которая определяет год по китайскому календарю,
+    # ввод данных закончить, когда пользователь ввел 0.
+    # Сделать проверку на правильность введенных данных.
     while True:
         year = input("Введите год: ")
         try:
             year = int(year)
         except ValueError:
             print("Введите целочисленный год!")
+            continue
+        except Exception:
+            print("Ошибка!")
             continue
         if year == 0:
             print("Выход из китайского календаря")
@@ -14,123 +23,199 @@ def task1():
 
 
 def china_year(year):
-    # Написать функцию, которая определяет год по китайскому календарю,
-    # ввод данных закончить, когда пользователь ввел 0.
-    # Сделать проверку на правильность введенных данных.
     china_calendar = {0: "обезьяна", 1: "петух", 2: "собака", 3: "свинья", 4: "крыса", 5: "бык", 6: "тигр",
                       7: "кот", 8: "дракон", 9: "змея", 10: "лошадь", 11: "коза"}
     print("Животное года:", china_calendar[year % 12])
 
 
+def func(var):
+    print("Тип входной переменной:", type(var))
+    if isinstance(var, list):
+        is_zero = False
+        summary = i = 0
+        while i < len(var):
+            if is_zero:
+                summary += var[i]
+            if var[i] < 0:
+                var.pop(i)
+                continue
+            elif var[i] == 0 and is_zero is False:
+                is_zero = True
+            i += 1
+        print("Теперь список выглядит так:", var, "\nСумма в получившемся списке:", summary)
+    elif isinstance(var, tuple):
+        temp_list = list(var)
+        index_max_number = temp_list.index(max(temp_list))
+        index_min_number = temp_list.index(min(temp_list))
+        temp_list[index_min_number], temp_list[index_max_number] \
+            = temp_list[index_max_number], temp_list[index_min_number]
+        var = tuple(temp_list)
+        print("Теперь кортеж выглядит так:", var)
+    elif isinstance(var, int):
+        summary = 0
+        while var > 0:
+            x = var % 10
+            if x % 2 != 0:
+                summary += x
+            var //= 10
+        print("Сумма нечетных цифр:", summary)
+    elif isinstance(var, str):
+        counter = 0
+        var = var.split()
+        for i in var:
+            if len(i) % 2 == 0:
+                counter += 1
+        print("Количество слов с четной длиной:", counter)
+    else:
+        print("Ошибка!")
+
+
 def task2():
-    # Посчитать, сколько пар (стоят рядом) верхнего и нижнего
-    # регистра находится в веденном с клавиатуры слове. (Пример HjkLM- 1
-    # пара нижнего, 1 пара верхнего), а также сколько гласных букв в слове.
-    count_lower = count_upper = count_vowel_letter = 0
-    english_vowels = ('e', 'y', 'u', 'i', 'o', 'a')
-    russian_vowels = ('у', 'е', 'а', 'о', 'э', 'я', 'и', 'ю', 'ё', 'ы')
-    input_string = input("Введите строку: ")
-    for i in range(len(input_string) - 1):
-        if input_string[i].islower() and input_string[i + 1].islower():
-            count_lower += 1
-        elif input_string[i].isupper() and input_string[i + 1].isupper():
-            count_upper += 1
-        if input_string[i].lower() in english_vowels or input_string[i].lower() in russian_vowels:
-            count_vowel_letter += 1
-    if input_string[len(input_string) - 1].lower() in english_vowels \
-            or input_string[len(input_string) - 1].lower() in russian_vowels:
-        count_vowel_letter += 1
-    print("Итого:\n Пар нижнего регистра:", count_lower, "\n Пар верхнего регистра:", count_upper,
-          "\n Гласных букв:", count_vowel_letter)
+    # Напишите функцию, которая будет принимать один аргумент.
+    # Если в функцию передаётся список, удалить все отрицательные элементы.
+    # Найти в новом списке сумму после первого нулевого элемента.
+    # Если кортеж, найти максимальный и минимальный элементы. Поменять их местами.
+    # Число – найти сумму нечетных цифр.
+    # Строка – подсчитывает количество слов, которые имеют четную длину.
+    # Сделать проверку со всеми этими случаями
+    variant = input("Что вы хотите создать?\n "
+                    "1. Список\n "
+                    "2. Кортеж\n "
+                    "3. Число\n "
+                    "4. Строку\n")
+    try:
+        variant = int(variant)
+    except ValueError:
+        print("Введите целочисленное число!")
+        return
+    except Exception:
+        print("Ошибка!")
+        return
+    input_numbers = input("Введите числа: ")
+    match variant:
+        case 1:
+            try:
+                input_numbers = list(map(int, input_numbers.split()))
+            except ValueError:
+                print("Введите целочисленное число!")
+                return
+            except Exception:
+                print("Ошибка!")
+                return
+        case 2:
+            try:
+                input_numbers = tuple(map(int, input_numbers.split()))
+            except ValueError:
+                print("Введите целочисленное число!")
+                return
+            except Exception:
+                print("Ошибка!")
+                return
+        case 3:
+            try:
+                input_numbers = int(input_numbers)
+            except ValueError:
+                print("Введите целочисленное число!")
+                return
+            except Exception:
+                print("Ошибка!")
+                return
+        case 4:
+            if all(j.isalpha() or j.isspace() for j in input_numbers):
+                print("Введены слова")
+            else:
+                print("Введите слова!")
+                return
+        case _:
+            print("Ошибка!")
+    func(input_numbers)
+
+
+class ZeroMatrixError(Exception):
+    pass
 
 
 def task3():
-    # Найдите сумму положительных элементов списка.
-    # Найдите сумму элементов списка после первого нуля.
-    # Если нулевых элементов нет в списке, то выведите «Сумму посчитать нельзя».
-    # Удалить из списка все отрицательные элементы
-    summary = summary_after_zero = 0
-    is_zero_exists = 0
-    input_list = []
-    count = int(input("Сколько чисел Вы хотите добавить? "))
-    for i in range(count):
-        input_list.append(int(input("Введите число: ")))
-    i = 0
-    while i < len(input_list):
-        if is_zero_exists == 1:
-            summary_after_zero += input_list[i]
-        if int(input_list[i]) > 0:
-            summary += input_list[i]
-        elif int(input_list[i]) == 0 and is_zero_exists == 0:
-            is_zero_exists = 1
+    # Дана целочисленная прямоугольная матрица.
+    # Определить количество столбцов, не содержащих ни одного нулевого элемента
+    n = input("Введите количество строк: ")
+    try:
+        n = int(n)
+    except ValueError:
+        print("Введите целочисленное число!")
+        return
+    m = input("Введите количество столбцов: ")
+    try:
+        m = int(m)
+    except ValueError:
+        print("Введите целочисленное число!")
+        return
+    try:
+        if n == 0 or m == 0:
+            raise ZeroMatrixError
+    except ZeroMatrixError:
+        print("Нулевая матрица!")
+        return
+    matrix = []
+    for line in range(n):
+        column_list = []
+        print("Строка #", line + 1, sep='')
+        for column in range(m):
+            value = input("Введите число: ")
+            try:
+                value = int(value)
+            except ValueError:
+                print("Введите целочисленное число!")
+                return
+            column_list.append(value)
+        matrix.append(column_list)
+    counter = 0
+    is_zero_exist = False
+    for j in range(m):
+        for i in range(n):
+            if matrix[i][j] == 0:
+                is_zero_exist = True
+                break
+        if is_zero_exist:
+            is_zero_exist = False
         else:
-            input_list.pop(i)
-            continue
-        i += 1
-    print("Сумма чисел больше нуля:", summary)
-    if is_zero_exists == 0:
-        print("Сумму посчитать нельзя, нет ни одного нуля")
-    else:
-        print("Сумма чисел после нуля:", summary_after_zero)
-    print("Теперь список выглядит так:", input_list)
+            counter += 1
+    print("Исходная матрица:")
+    for line in matrix:
+        print(line)
+    print("Количество строк, не содержащих нуля:", counter)
+
+
+class FutureYearError(Exception):
+    pass
+
+
+class TooOldError(Exception):
+    pass
 
 
 def task4():
-    # Дана строка в виде случайной последовательности чисел от 0 до 9.
-    # Требуется создать словарь, который в качестве ключей будет
-    # принимать данные числа (т. е. ключи будут типом int), а в качестве
-    # значений – количество этих чисел в имеющейся последовательности
-    input_list = input("Введите строку: ")
-    if input_list.isdigit() is False:
-        print("Строка состоит не из цифр!")
-        return
-    input_list = [int(n) for n in input_list]
-    dictionary = dict.fromkeys(input_list)
-    for key_name, val in dictionary.items():
-        counter = 0
-        for k in input_list:
-            if k == key_name:
-                counter += 1
-        dictionary[key_name] = counter
-    print("Словарь: ", dictionary)
-
-
-def description(dictionary):
-    for key_name, val in dictionary.items():
-        print(key_name, "->", "".join(val[0]))
-
-
-def price_list(dictionary):
-    for key_name, val in dictionary.items():
-        print(key_name, "->", val[1], "руб.")
-
-
-def quantity(dictionary):
-    for key_name, val in dictionary.items():
-        print(key_name, "->", val[2], "грамм")
-
-
-def all_info(dictionary):
-    for key_name, val in dictionary.items():
-        print(key_name, " -> ", "".join(val[0]), ", ", val[1], " руб., ", val[2], " грамм", sep='')
-
-
-def purchase(dictionary):
-    product = input("Введите название продукции: ")
-    var = dictionary.get(product)
-    if var is None:
-        print("Нет такого наименования!")
-        return
-    amount = int(input("Введите количество в граммах: "))
-    if amount <= 0:
-        print("Отрицательное количество!")
-        return
-    if amount > var[2]:
-        print("Нет в наличии столько продукции!\nЕсть только", var[2], "грамм!")
-        return
-    summary = var[1] * amount / 100
-    var[2] -= amount
-    print("Приобретено продукции на", summary, "руб.")
+    # Напишите программу, демонстрирующую работу try\except\finally
+    now = datetime.datetime.now()
+    year = input("Введите год окончания университета: ")
+    try:
+        year = int(year)
+        if year > now.year:
+            raise FutureYearError
+        elif year < now.year - 100:
+            raise TooOldError
+    except ValueError:
+        print("Введите целочисленное число!")
+    except FutureYearError:
+        print("Этот год ещё не наступил!")
+    except TooOldError:
+        print("Слишком давно!")
+    except Exception:
+        print("Ошибка!")
+    else:
+        print("Ваш год окончания университета подтвержден!")
+    finally:
+        print("До свидания!")
 
 
 def menu():
@@ -141,7 +226,12 @@ def menu():
               "3. Матрица\n "
               "4. Исключения\n "
               "0. Выход")
-        variant = int(input("Выберите задание: "))
+        variant = input("Выберите задание: ")
+        try:
+            variant = int(variant)
+        except ValueError:
+            print("Введите целочисленное число!")
+            continue
         if variant > 4 or variant < 0:
             print("Ошибка, введите число в заданном интервале!")
         else:
